@@ -7,7 +7,7 @@ angular.module('stockApp').controller('stockGraphs', function ($rootScope, $scop
     $scope.selectedCompany = null;
 
     $scope.settings = {
-        period: 3
+        period: 0
     };
 
     $scope.stocksData = {
@@ -26,8 +26,8 @@ angular.module('stockApp').controller('stockGraphs', function ($rootScope, $scop
                 data: []
             },
             {
-                name: "Facebook, Inc.",
-                stockId: 'FB',
+                name: "Microsoft Corporation",
+                stockId: 'MSFT',
                 visible: true,
                 details: {
                     employers: 7185,
@@ -40,8 +40,8 @@ angular.module('stockApp').controller('stockGraphs', function ($rootScope, $scop
                 data: []
             },
             {
-                name: "Google Inc.",
-                stockId: 'GOOG',
+                name: "ABB Ltd.",
+                stockId: 'ABB',
                 visible: true,
                 details: {
                     employers: 52069,
@@ -56,15 +56,15 @@ angular.module('stockApp').controller('stockGraphs', function ($rootScope, $scop
 
     var dateRanges = {
       '0': {
-          value: '1w',
+          value: '1m',
           label: 'Last week'
       },
       '1': {
-          value: '1m',
+          value: '2m',
           label: 'Last month'
       },
       '2': {
-          value: '3m',
+          value: '4m',
           label: 'Last 3 months'
       },
       '3': {
