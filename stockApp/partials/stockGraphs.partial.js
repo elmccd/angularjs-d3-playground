@@ -1,16 +1,20 @@
 'use strict';
 
-angular.module('stockApp').controller('stockGraphs', function ($scope, stock) {
+angular.module('stockApp').controller('stockGraphs', function ($rootScope, $scope, $q, yahooFinance) {
 
     window.$scope = $scope;
 
     $scope.selectedCompany = null;
 
+    $scope.settings = {
+        period: 3
+    };
+
     $scope.stocksData = {
-        timePeriod: 6,
         companies: [
             {
-                name: "Cisco",
+                name: "Cisco Systems, Inc.",
+                stockId: 'CSCO',
                 visible: true,
                 details: {
                     employers: 74043,
@@ -19,10 +23,11 @@ angular.module('stockApp').controller('stockGraphs', function ($scope, stock) {
                         " added to the Dow Jones Industrial Average on June 8, 2009, and is also included in the S&P" +
                         " 500 Index, the Russell 1000 Index, NASDAQ-100 Index and the Russell 1000 Growth Stock Index."
                 },
-                data: stock.get('cisco')
+                data: []
             },
             {
-                name: "Facebook",
+                name: "Facebook, Inc.",
+                stockId: 'FB',
                 visible: true,
                 details: {
                     employers: 7185,
@@ -32,10 +37,11 @@ angular.module('stockApp').controller('stockGraphs', function ($scope, stock) {
                         "Zuckerberg with his college roommates and fellow Harvard University students Eduardo Saverin, " +
                         "Andrew McCollum, Dustin Moskovitz and Chris Hughes."
                 },
-                data: stock.get('facebook')
+                data: []
             },
             {
-                name: "Google",
+                name: "Google Inc.",
+                stockId: 'GOOG',
                 visible: true,
                 details: {
                     employers: 52069,
@@ -43,11 +49,45 @@ angular.module('stockApp').controller('stockGraphs', function ($scope, stock) {
                         "Internet-related services and products. These include online advertising technologies, " +
                         "search, cloud computing, and software. Most of its profits are derived from AdWords."
                 },
-                data: stock.get('google')
+                data: []
             }
         ]
     };
 
+    var dateRanges = {
+      '0': {
+          value: '1w',
+          label: 'Last week'
+      },
+      '1': {
+          value: '1m',
+          label: 'Last month'
+      },
+      '2': {
+          value: '3m',
+          label: 'Last 3 months'
+      },
+      '3': {
+          value: '6m',
+          label: 'Last 6 months'
+      }
+    };
+
+    var promises = [];
+
+    $scope.stocksData.companies.forEach(function (company) {
+        var promise = yahooFinance.getAll(company.stockId, dateRanges[$scope.settings.period].value);
+        promise.success(function (data) {
+           console.info(data);
+           company.data = data.series;
+        });
+
+        promises.push(promise);
+    });
+
+    $q.all(promises).then(function () {
+        $scope.$broadcast('redraw', true);
+    });
 
     $scope.selectedCompany = $scope.stocksData.companies[0];
 

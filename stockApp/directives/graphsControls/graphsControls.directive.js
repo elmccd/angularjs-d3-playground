@@ -4,7 +4,8 @@ angular.module('stockApp').directive('graphsControls', function () {
     return {
         restrict: 'EA',
         scope: {
-            stocks: '='
+            stocks: '=',
+            settings: '='
         },
         templateUrl: 'stockApp/directives/graphsControls/graphsControls.directive.html'
     };

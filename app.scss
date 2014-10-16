@@ -1,0 +1,9 @@
+body {
+  margin: 20px;
+}
+
+@import "stockApp/directives/graphsControls/graphsControls.directive";
+@import "stockApp/directives/stocksGraph/stocksGraph.directive";
+@import "stockApp/directives/stocksGrid/stocksGrid.directive";
+
+@import "stockApp/partials/stockGraphs.partial";

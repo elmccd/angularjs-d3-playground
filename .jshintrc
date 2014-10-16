@@ -18,6 +18,8 @@
     "indent": 2,
     "globals": {
         "angular": false,
+        "d3": false,
+        "_": false,
         "console": false
     }
 }

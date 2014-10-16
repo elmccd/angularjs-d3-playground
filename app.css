@@ -1,3 +1,9 @@
+body {
+  margin: 20px; }
+
+a {
+  color: red; }
+
 stocks-graph .axis path,
 stocks-graph .axis line, [stocks-graph] .axis path,
 [stocks-graph] .axis line {
@@ -10,3 +16,6 @@ stocks-graph .line, [stocks-graph] .line {
   fill: none;
   stroke: steelblue;
   stroke-width: 1.5px; }
+
+a {
+  color: red; }

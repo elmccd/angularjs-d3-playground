@@ -3,13 +3,18 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Angular D3 Playground</title>
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="app.css"/>
+
 </head>
 <body>
 
 <h1>Angular D3 Playground</h1>
 
 <section ng-controller="stockGraphs">
-    <graphs-controls data-stocks="stocksData"></graphs-controls>
+
+    <graphs-controls data-stocks="stocksData" data-settings="settings"></graphs-controls>
 
     <stocks-graph data-stocks="stocksData"></stocks-graph>
 
@@ -20,15 +25,19 @@
     <hr/>
     <pre>
         {{ stocksData | json }}
+        {{ settings | json }}
     </pre>
 </section>
 
+
+
 <script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/underscore/underscore.js"></script>
 <script src="bower_components/d3/d3.js"></script>
 
 <script src="stockApp/stockApp.js"></script>
 
-<script src="stockApp/services/stock.service.js"></script>
+<script src="stockApp/services/yahooFinance.service.js"></script>
 
 <script src="stockApp/partials/stockGraphs.partial.js"></script>
 
