@@ -1,0 +1,14 @@
+<section>
+    <h1>companyDetails</h1>
+    <dl>
+        <dt>Company name:</dt>
+        <dd>{{ company.name }}</dd>
+
+        <dt>Employers:</dt>
+        <dd>{{ company.details.employers | prettyNumber}}</dd>
+
+        <dt>About:</dt>
+        <dd>{{ company.details.about }}</dd>
+
+    </dl>
+</section>

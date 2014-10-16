@@ -1,0 +1,18 @@
+<form>
+    <fieldset>
+
+        <legend>
+            Stocks
+        </legend>
+        <label ng-repeat="company in stocks.companies">
+            <input type="checkbox" ng-model="company.visible"/>
+            {{ company.name }}
+        </label>
+    </fieldset>
+    <fieldset>
+        <legend>
+            Time period
+        </legend>
+        <input type="range" name="points" min="1" max="6" ng-model="stocks.timePeriod">
+    </fieldset>
+</form>
