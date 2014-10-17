@@ -1,18 +1,21 @@
-<form>
-    <fieldset>
+<form class="well clearfix">
+    <fieldset class="col-md-8">
 
         <legend>
-            Stocks
+            Companies
         </legend>
-        <label ng-repeat="company in stocks.companies">
-            <input type="checkbox" ng-model="company.visible"/>
-            {{ company.name }}
-        </label>
+        <div class="checkbox" ng-repeat="company in stocks.companies">
+            <label>
+                <input type="checkbox" ng-model="company.visible" ng-change="update()"/>
+                {{ company.name }}
+            </label>
+        </div>
     </fieldset>
-    <fieldset>
+    <fieldset class="col-md-4">
         <legend>
             Time period
         </legend>
-        <input type="range" name="points" min="0" max="3" ng-model="settings.period">
+        <input type="range" name="points" min="0" max="3" ng-model="stocks.period">
+        <span class="pull-right">{{ stocks.dateRanges[stocks.period].label }}</span>
     </fieldset>
 </form>

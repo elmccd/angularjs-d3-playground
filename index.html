@@ -10,11 +10,11 @@
 </head>
 <body>
 
-<h1>Angular D3 Playground</h1>
 
-<section ng-controller="stockGraphs">
 
-    <graphs-controls data-stocks="stocksData" data-settings="settings"></graphs-controls>
+<section ng-controller="stockGraphs" class="container">
+    <h1>Angular D3 Playground</h1>
+    <graphs-controls data-stocks="stocksData" update="update"></graphs-controls>
 
     <stocks-graph data-stocks="stocksData"></stocks-graph>
 

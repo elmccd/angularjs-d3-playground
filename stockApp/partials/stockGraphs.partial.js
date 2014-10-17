@@ -6,13 +6,29 @@ angular.module('stockApp').controller('stockGraphs', function ($rootScope, $scop
 
     $scope.selectedCompany = null;
 
-    $scope.settings = {
-        period: 0
-    };
-
     $scope.stocksData = {
+        period: 0,
+        dateRanges: {
+            '0': {
+                value: '1m',
+                label: 'Last week'
+            },
+            '1': {
+                value: '2m',
+                label: 'Last month'
+            },
+            '2': {
+                value: '4m',
+                label: 'Last 3 months'
+            },
+            '3': {
+                value: '6m',
+                label: 'Last 6 months'
+            }
+        },
         companies: [
             {
+                id: 1,
                 name: "Cisco Systems, Inc.",
                 stockId: 'CSCO',
                 visible: true,
@@ -26,6 +42,7 @@ angular.module('stockApp').controller('stockGraphs', function ($rootScope, $scop
                 data: []
             },
             {
+                id: 2,
                 name: "Microsoft Corporation",
                 stockId: 'MSFT',
                 visible: true,
@@ -40,6 +57,7 @@ angular.module('stockApp').controller('stockGraphs', function ($rootScope, $scop
                 data: []
             },
             {
+                id: 3,
                 name: "ABB Ltd.",
                 stockId: 'ABB',
                 visible: true,
@@ -54,45 +72,35 @@ angular.module('stockApp').controller('stockGraphs', function ($rootScope, $scop
         ]
     };
 
-    var dateRanges = {
-      '0': {
-          value: '1m',
-          label: 'Last week'
-      },
-      '1': {
-          value: '2m',
-          label: 'Last month'
-      },
-      '2': {
-          value: '4m',
-          label: 'Last 3 months'
-      },
-      '3': {
-          value: '6m',
-          label: 'Last 6 months'
-      }
+    $scope.update = function () {
+        $scope.$broadcast('draw', true);
     };
 
-    var promises = [];
+    var getData = function () {
+        var promises = [];
 
-    $scope.stocksData.companies.forEach(function (company) {
-        var promise = yahooFinance.getAll(company.stockId, dateRanges[$scope.settings.period].value);
-        promise.success(function (data) {
-           console.info(data);
-           company.data = data.series;
+        $scope.stocksData.companies.forEach(function (company) {
+            var promise = yahooFinance.getAll(company.stockId, $scope.stocksData.dateRanges[$scope.stocksData.period].value);
+            promise.success(function (data) {
+                console.info(data);
+                company.data = data.series;
+            });
+
+            promises.push(promise);
         });
 
-        promises.push(promise);
-    });
+        $q.all(promises).then(function () {
+            $scope.$broadcast('draw', true);
+        });
+    };
 
-    $q.all(promises).then(function () {
-        $scope.$broadcast('redraw', true);
-    });
+
 
     $scope.selectedCompany = $scope.stocksData.companies[0];
 
     //ng-model attached to range select return string, we need number
-    $scope.$watch('stocksData.timePeriod', function (newValue) {
+    $scope.$watch('stocksData.period', function (newValue) {
+        getData();
         if (typeof newValue === 'string') {
             $scope.stocksData.timePeriod |= 0;
         }

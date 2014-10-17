@@ -1,8 +1,6 @@
-body {
-  margin: 20px; }
-
-a {
-  color: red; }
+graphs-controls .checkbox, [graphs-controls] .checkbox {
+  display: inline-block;
+  padding-right: 1em; }
 
 stocks-graph .axis path,
 stocks-graph .axis line, [stocks-graph] .axis path,
@@ -16,6 +14,12 @@ stocks-graph .line, [stocks-graph] .line {
   fill: none;
   stroke: steelblue;
   stroke-width: 1.5px; }
+stocks-graph [data-id="1"] .line, [stocks-graph] [data-id="1"] .line {
+  stroke: blue; }
+stocks-graph [data-id="2"] .line, [stocks-graph] [data-id="2"] .line {
+  stroke: red; }
+stocks-graph [data-id="3"] .line, [stocks-graph] [data-id="3"] .line {
+  stroke: green; }
 stocks-graph .tooltip, [stocks-graph] .tooltip {
   position: absolute;
   text-align: center;

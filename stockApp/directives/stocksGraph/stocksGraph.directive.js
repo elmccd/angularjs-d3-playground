@@ -8,9 +8,21 @@ angular.module('stockApp').directive('stocksGraph', function () {
         },
         templateUrl: 'stockApp/directives/stocksGraph/stocksGraph.directive.html',
         controller: function ($scope, $element) {
+            var drawn  = false;
 
-            $scope.$on('redraw', function (value) {
-                build($scope.stocks.companies);
+            $scope.$on('draw', function () {
+                if (drawn) {
+                    $scope.update();
+                } else {
+                    drawn = true;
+                    build($scope.stocks.companies);
+                }
+
+            });
+
+            $scope.$on('redraw', function () {
+                console.log('UPDATE');
+                $scope.update();
             });
 
             var cities;
@@ -20,8 +32,8 @@ angular.module('stockApp').directive('stocksGraph', function () {
 
 // Set the dimensions of the canvas / graph
             var margin = {top: 30, right: 20, bottom: 30, left: 50},
-                width = 600 - margin.left - margin.right,
-                height = 270 - margin.top - margin.bottom;
+                width = 900 - margin.left - margin.right,
+                height = 350 - margin.top - margin.bottom;
 
 // Parse the date / time
             var parseDate = d3.time.format("%Y%m%d").parse;
@@ -63,37 +75,51 @@ angular.module('stockApp').directive('stocksGraph', function () {
             $scope.update = function () {
                 var data = $scope.stocks.companies;
 
-                $('.city').last().remove();
+
 
 
                 data.forEach(function (company) {
                     company.data.forEach(function (d, index) {
                         d.id = index;
                         d.date = parseDate(d.Date + '');
-                        d.close = +d.close * Math.random() * 2;
+                        d.close = +d.close;
                     });
                 });
 
                 cities = data.map(function (company) {
                     return {
+                        id: company.id,
                         name: company.name,
+                        visible: company.visible,
                         values: company.data.map(function (d) {
                             return {date: d.date, close: d.close};
                         })
                     };
                 });
+                console.log(cities);
+                cities.forEach(function(company) {
+                    if (company.visible) {
+                        $('.city[data-id="' + company.id + '"]').show();
+                    } else {
+                        company.values = [];
+                        $('.city[data-id="' + company.id + '"]').hide();
+                    }
+                    console.log(company.visible);
+                });
+
+
+
+                console.log(cities);
+
 
                 color.domain(_.pluck(cities, 'name'));
 
-                console.log(cities);
-
-
-                console.log(cities);
 
                 // Scale the range of the data
                 x.domain(d3.extent(data[0].data, function (d) {
                     return d.date;
                 }));
+
                 y.domain([
                     d3.min(cities, function (c) {
                         return d3.min(c.values, function (v) {
@@ -125,22 +151,27 @@ angular.module('stockApp').directive('stocksGraph', function () {
                     .duration(750)
                     .attr("d", function (d) {
                         console.log(d);
-                        return line(d.values);
-                    })
-                    .style("stroke", function (d) {
-                        return color(d.name);
+                        return d.values.length ? line(d.values) : null;
                     });
 
                 // Make the changes
 //                svg.select(".line")   // change the line
 //                    .duration(750)
 //                    .attr("d", line(data));
-                svg.select(".x.axis") // change the x axis
-                    //.duration(750)
+                svg2.select(".x.axis") // change the x axis
+                    .duration(750)
                     .call(xAxis);
-                svg.select(".y.axis") // change the y axis
-                    //.duration(750)
+                svg2.select(".y.axis") // change the y axis
+                    .duration(750)
                     .call(yAxis);
+
+
+//                city.selectAll(".series")
+//                    .datum(function(d) { console.info(d);  return {name: d.name, value: d.value[d.value.length - 1]}; })
+//                    .attr("transform", function(d) { console.info(d);  return "translate(" + x(d.value.date) + "," + y(d.value.close) + ")"; })
+//                    .attr("x", 3)
+//                    .attr("dy", ".35em")
+//                    .text(function(d) { return d.name; });
             };
 
             var build = function (data) {
@@ -209,7 +240,7 @@ angular.module('stockApp').directive('stocksGraph', function () {
                     .enter()
                     .append("g")
                     .attr("class", "city")
-                    .attr("data-d", function (d) {
+                    .attr("data-id", function (d) {
                         console.log(d);
                         return d.id;
                         //return line(d.values);
@@ -218,17 +249,15 @@ angular.module('stockApp').directive('stocksGraph', function () {
                 city.append("path")
                     .attr("class", "line")
                     .attr("d", function (d) {
-                        return line(d.values);
-                    })
-                    .style("stroke", function (d) {
-                        return color(d.name);
+                        return d.values.length ? line(d.values) : null;
                     });
 
 //                city.append("text")
 //                    .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
-//                    .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.temperature) + ")"; })
+//                    .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.close) + ")"; })
 //                    .attr("x", 3)
 //                    .attr("dy", ".35em")
+//                    .attr("class", "series")
 //                    .text(function(d) { return d.name; });
 
 
