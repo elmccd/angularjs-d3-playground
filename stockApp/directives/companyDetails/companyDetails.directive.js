@@ -6,9 +6,6 @@ angular.module('stockApp').directive('companyDetails', function () {
         scope: {
             company: '='
         },
-        templateUrl: 'stockApp/directives/companyDetails/companyDetails.directive.html',
-        controller: function ($scope) {
-
-        }
+        templateUrl: 'stockApp/directives/companyDetails/companyDetails.directive.html'
     };
 });
