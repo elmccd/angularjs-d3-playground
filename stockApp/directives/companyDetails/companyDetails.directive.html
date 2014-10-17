@@ -1,6 +1,8 @@
-<section>
-    <h1>companyDetails</h1>
-    <dl>
+<section class="well">
+
+    <h2>Company details</h2>
+
+    <dl ng-show="company">
         <dt>Company name:</dt>
         <dd>{{ company.name }}</dd>
 
@@ -11,4 +13,7 @@
         <dd>{{ company.details.about }}</dd>
 
     </dl>
+    <div ng-hide="company">
+        <p>Click line on the Stock Graph to select company.</p>
+    </div>
 </section>

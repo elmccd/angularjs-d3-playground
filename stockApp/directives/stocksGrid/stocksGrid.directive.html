@@ -1,3 +1,29 @@
-<section>
-    <h1>stocksGrid</h1>
+<section class="well">
+    <h2>Stocks Grid</h2>
+    <div class="grid">
+        <table class="table table-striped">
+            <thead>
+                <tr class="active">
+                    <th>Company</th>
+                    <th ng-repeat="day in stocks.companies[0].data" class="stock-info">{{ day.date | date }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="company in stocks.companies" ng-show="company.visible">
+                    <th class="company-name"> {{ company.name }}</th>
+                    <td ng-repeat="day in company.data" class="stock-info">
+                        <dl>
+                            <dt>High</dt>
+                            <dd>{{ day.high }}</dd>
+                            <dt>Low</dt>
+                            <dd>{{ day.low }}</dd>
+                            <dt>Volume</dt>
+                            <dd>{{ day.volume | prettyNumber }}</dd>
+                        </dl>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
 </section>

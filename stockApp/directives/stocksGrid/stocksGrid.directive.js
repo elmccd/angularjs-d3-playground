@@ -6,9 +6,6 @@ angular.module('stockApp').directive('stocksGrid', function () {
         scope: {
             stocks: '='
         },
-        templateUrl: 'stockApp/directives/stocksGrid/stocksGrid.directive.html',
-        controller: function ($scope) {
-            console.log($scope.stocks);
-        }
+        templateUrl: 'stockApp/directives/stocksGrid/stocksGrid.directive.html'
     };
 });

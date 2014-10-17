@@ -2,6 +2,6 @@
 
 angular.module('stockApp').filter('prettyNumber', function () {
     return function (input) {
-        return input.toLocaleString();
+        return input ? input.toLocaleString() : input;
     };
 });

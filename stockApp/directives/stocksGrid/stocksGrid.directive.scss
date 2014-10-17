@@ -1,3 +1,12 @@
-a {
-  color: red;
+stocks-grid, [stocks-grid] {
+  .grid {
+    position: relative;
+    overflow-x: scroll;
+  }
+  .company-name {
+    min-width: 170px;
+  }
+  .stock-info {
+    min-width: 130px;
+  }
 }

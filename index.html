@@ -10,23 +10,23 @@
 </head>
 <body>
 
-
-
 <section ng-controller="stockGraphs" class="container">
-    <h1>Angular D3 Playground</h1>
-    <graphs-controls data-stocks="stocksData" update="update"></graphs-controls>
 
-    <stocks-graph data-stocks="stocksData"></stocks-graph>
+    <h1>Angular D3 Playground</h1>
+
+    <graphs-controls data-stocks="stocksData" data-on-change="update"></graphs-controls>
+
+    <div class="row">
+        <div class="col-md-8">
+            <stocks-graph data-stocks="stocksData" data-selected-company="selectedCompany"></stocks-graph>
+        </div>
+        <div class="col-md-4">
+            <company-details data-company="selectedCompany"></company-details>
+        </div>
+    </div>
 
     <stocks-grid data-stocks="stocksData"></stocks-grid>
 
-    <company-details ng-show="selectedCompany" data-company="selectedCompany"></company-details>
-
-    <hr/>
-    <pre>
-        {{ stocksData | json }}
-        {{ settings | json }}
-    </pre>
 </section>
 
 
@@ -36,8 +36,11 @@
 <script src="bower_components/underscore/underscore.js"></script>
 <script src="bower_components/d3/d3.js"></script>
 
+
+
 <script src="stockApp/stockApp.js"></script>
 
+<script src="stockApp/services/companies.service.js"></script>
 <script src="stockApp/services/yahooFinance.service.js"></script>
 
 <script src="stockApp/partials/stockGraphs.partial.js"></script>

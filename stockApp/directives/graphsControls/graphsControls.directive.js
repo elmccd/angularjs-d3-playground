@@ -5,7 +5,7 @@ angular.module('stockApp').directive('graphsControls', function () {
         restrict: 'EA',
         scope: {
             stocks: '=',
-            update: '='
+            update: '=onChange'
         },
         templateUrl: 'stockApp/directives/graphsControls/graphsControls.directive.html'
     };
